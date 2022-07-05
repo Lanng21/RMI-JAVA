@@ -50,7 +50,9 @@ public class UserService {
 
     //update user to database and return true if success else return false
     public Message updateUser(User user) {
-        if(checkEmail(user.getEmail())) {
+    	User userCheck = getUserById(user.getId());
+    	
+        if(checkEmail(user.getEmail()) && !userCheck.getEmail().equals(user.getEmail())) {
             Message message = new Message();
             message.setCheck(false);
             message.setMessage("Email đã tồn tại!");
@@ -61,7 +63,6 @@ public class UserService {
             String password = user.getPassword();
             SecurityRSA securityRSA = new SecurityRSA();
             password = securityRSA.encrypt(password);
-            System.out.println(user);
             String sql = "UPDATE user SET `name`=?, `email`=?, `password`=?, `address`=?, `phone`=?, `date`=?, `code`=?, `role`=? WHERE `id`=?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, user.getName());

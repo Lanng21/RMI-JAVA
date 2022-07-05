@@ -88,8 +88,9 @@ ManageVehicleService {
     }
     //update ManageVehicle input object ManageVehicle
     public Message updateManageVehicle(ManageVehicle manageVehicle) {
+    	ManageVehicle manageVehicleCheck = getManageVehicleById(manageVehicle.getId());
         Message message = new Message();
-        if(checkPlate(manageVehicle.getPlate())){
+        if(checkPlate(manageVehicle.getPlate()) && !manageVehicleCheck.getPlate().equals(manageVehicle.getPlate())){
             message.setMessage("Biển số đã tồn tại!");
             message.setCheck(false);
             return message;
